@@ -100,28 +100,28 @@
 
         .logo-wrapper {
             position: relative;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             display: inline-block;
         }
 
-        /* هالة ناعمة حول الشعار بدل الدائرة المائلة */
+        /* هالة ناعمة حول الشعار بدل الدائرة المتحركة القديمة */
         .logo-wrapper::before {
             content: "";
             position: absolute;
-            inset: -18px;
+            inset: -20px;
             border-radius: 999px;
             background: radial-gradient(circle,
-            rgba(45,212,191,0.2) 0,
-            transparent 60%);
-            filter: blur(2px);
+            rgba(45,212,191,0.35) 0,
+            transparent 70%);
+            filter: blur(3px);
             opacity: 0.9;
             animation: glowPulse 3.5s ease-in-out infinite;
         }
 
         @keyframes glowPulse {
-            0%   { transform: scale(1);   opacity: 0.7; }
+            0%   { transform: scale(1);   opacity: 0.6; }
             50%  { transform: scale(1.08); opacity: 1; }
-            100% { transform: scale(1);   opacity: 0.7; }
+            100% { transform: scale(1);   opacity: 0.6; }
         }
 
         .logo-wrapper img {
@@ -131,19 +131,21 @@
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid rgba(248,250,252,0.9);
-            box-shadow: 0 12px 28px rgba(15,23,42,0.9);
+            border: 4px solid rgba(248,250,252,0.95);
+            box-shadow: 0 12px 30px rgba(15,23,42,0.9);
             background: #020617;
         }
 
-        /* الكارت الأخضر تحت الشعار */
+        /* كارت نظام إدارة البيانات تحت الشعار */
         .splash-badge {
             display: inline-flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 8px 16px;
-            margin-top: 6px;
+            gap: 2px;
+            padding: 8px 18px;
+            margin-top: 4px;
+            margin-bottom: 12px;
             border-radius: 999px;
             background: rgba(16,185,129,0.18);
             border: 1px solid rgba(16,185,129,0.6);
@@ -163,7 +165,7 @@
         .splash-title {
             font-size: 24px;
             font-weight: 700;
-            margin: 16px 0 4px;
+            margin: 12px 0 4px;
         }
 
         .splash-subtitle {
@@ -243,7 +245,7 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid rgba(248,250,252,0.8);
+            border: 2px solid rgba(248,250,252,0.9);
             background: #020617;
         }
 
@@ -377,25 +379,11 @@
             flex-wrap: wrap;
         }
 
-        .primary-small,
         .ghost-small {
             padding: 6px 12px;
             border-radius: 999px;
             font-size: 12px;
             cursor: pointer;
-        }
-
-        .primary-small {
-            border: none;
-            background: #0ea5e9;
-            color: #ecfeff;
-        }
-
-        .primary-small:hover {
-            filter: brightness(1.05);
-        }
-
-        .ghost-small {
             border: 1px solid rgba(148,163,184,0.6);
             background: transparent;
             color: var(--text-main);
@@ -517,6 +505,10 @@
             font-size: 12px;
         }
 
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* ---------- Responsiveness ---------- */
 
         @media (max-width: 1024px) {
@@ -589,24 +581,24 @@
 <body>
 <div id="app">
 
-    <!-- شاشة البداية (الشعار + ابدأ) -->
+    <!-- شاشة البداية -->
     <section id="splash" class="splash">
         <div class="splash-content">
 
             <div class="logo-wrapper">
+                <!-- تأكد أن logo.png في نفس المجلد -->
                 <img id="centerLogoBig" src="logo.png" alt="شعار المركز">
             </div>
 
-            <!-- كارت نظام إدارة البيانات تحت الشعار -->
             <div class="splash-badge">
                 <span>نظام إدارة بيانات الطلاب</span>
-                <span>متابعة محدثة لطلاب المركز حسب المرحلة والحلقة</span>
+                <span>متابعة الحفظ والحضور والبيانات الأساسية لكل طالب في المركز</span>
             </div>
 
             <h1 class="splash-title">مركز تحفيظ القرآن الكريم</h1>
             <p class="splash-subtitle">
-                هذه البوابة تتيح استعراض بيانات طلاب المركز لكل المراحل الدراسية
-                مع تحديث مباشر من جداول Google Sheets، لتسهيل المتابعة الإدارية والتعليمية.
+                بوابة مخصّصة لعرض بيانات الطلاب حسب المرحلة الدراسية، مع تحديث تلقائي من جداول Google Sheets،
+                لتسهيل عمل الإدارة والمعلمين في المتابعة اليومية.
             </p>
 
             <button id="startBtn" class="start-btn">
@@ -727,36 +719,75 @@
     // ID ملف Google Sheets
     const SPREADSHEET_ID = "14bW4VEbCGTOq55aYXiti6xZUPRkwMax7iC7NiynOjb4";
 
-    // تعريف الـ gid لكل تبويب (ضع الـ gid الصحيح لكل مرحلة)
+    // نفترض أن أسماء الصفحات داخل الشيت هي كالتالي (عدّلها لو مختلفة):
+    // "المرحلة الابتدائية" – "المرحلة الإعدادية" – "المرحلة الثانوية" – "المرحلة الجامعية"
     const SHEETS_CONFIG = {
-        primary: {      // المرحلة الابتدائية
-            gid: "926618487",
+        primary: {
+            sheetName: "المرحلة الابتدائية",
             title: "المرحلة الابتدائية"
         },
-        prep: {         // الإعدادية
-            gid: "CHANGE_ME_PREP_GID",
+        prep: {
+            sheetName: "المرحلة الإعدادية",
             title: "المرحلة الإعدادية"
         },
-        secondary: {    // الثانوية
-            gid: "CHANGE_ME_SECONDARY_GID",
+        secondary: {
+            sheetName: "المرحلة الثانوية",
             title: "المرحلة الثانوية"
         },
-        university: {   // الجامعية
-            gid: "CHANGE_ME_UNIVERSITY_GID",
+        university: {
+            sheetName: "المرحلة الجامعية",
             title: "المرحلة الجامعية"
         }
     };
 
-    // لو حابب تتجاهل أول N أعمدة (غالبًا 0)
+    // لو حابب تتجاهل أول N أعمدة (عادة 0)
     const IGNORE_FIRST_N_COLUMNS = 0;
 
-    // تحديد الأعمدة التي تظهر لكل مرحلة (بالأرقام من 0 بناءً على ترتيب الأعمدة في الشيت)
-    // مثال للابتدائي: عرض العمود 0 و1 و4 و5 و6 و8 و9 فقط (عدّل كما يناسب شيتك)
-    const COLUMNS_TO_SHOW = {
-        primary:   [0, 1, 4, 5, 6, 8, 9],      // المتبقي من المراحل يمكنك تحديده أو تركه null لعرض كل الأعمدة
-        prep:      null,                       // null = عرض كل الأعمدة
-        secondary: null,
-        university:null
+    // تحديد الأعمدة المرئية لكل مرحلة بالاعتماد على "عنوان العمود" في الشيت
+    // لو خَلّيت القيمة null → يظهر كل الأعمدة.
+    // عدّل هذه القوائم حسب عناوين الأعمدة عندك بالضبط.
+    const VISIBLE_HEADERS = {
+        primary: [
+            "#",
+            "اسم الطالب",
+            "الصف",
+            "الحلقة",
+            "رقم جوال الطالب",
+            "رقم جوال ولي الأمر",
+            "الحفظ الحالي",
+            "ملاحظات"
+        ],
+        prep: [
+            "#",
+            "اسم الطالب",
+            "الصف",
+            "الحلقة",
+            "رقم جوال الطالب",
+            "رقم جوال ولي الأمر",
+            "الحفظ الحالي",
+            "ملاحظات"
+        ],
+        secondary: [
+            "#",
+            "اسم الطالب",
+            "الصف",
+            "الحلقة",
+            "رقم جوال الطالب",
+            "رقم جوال ولي الأمر",
+            "الحفظ الحالي",
+            "ملاحظات"
+        ],
+        university: [
+            "#",
+            "اسم الطالب",
+            "التخصص",
+            "الجامعة",
+            "الحلقة",
+            "رقم جوال الطالب",
+            "رقم جوال ولي الأمر",
+            "الحفظ الحالي",
+            "ملاحظات"
+        ]
     };
 
     /******************************
@@ -814,8 +845,9 @@
             `<tr><td colspan="10" class="error-msg">${message}</td></tr>`;
     }
 
-    function buildCsvUrl(gid) {
-        return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${gid}`;
+    function buildCsvUrl(sheetName) {
+        // نستخدم gviz مع out:csv حسب اسم الشيت
+        return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
     }
 
     // Parser بسيط للـ CSV
@@ -841,39 +873,53 @@
         const headerRow = rows[0];
         const dataRows  = rows.slice(1);
 
-        // تحديد الأعمدة التي ستُعرض لهذه المرحلة
-        let indexes;
-        const customCols = COLUMNS_TO_SHOW[currentLevelKey];
+        // تحديد أي عناوين نعرضها لهذه المرحلة
+        const wantedHeaders = VISIBLE_HEADERS[currentLevelKey] || null;
 
-        if (Array.isArray(customCols) && customCols.length > 0) {
-            indexes = customCols;
+        let columnIndexes;
+        if (Array.isArray(wantedHeaders) && wantedHeaders.length > 0) {
+            columnIndexes = [];
+            wantedHeaders.forEach(h => {
+                const idx = headerRow.indexOf(h);
+                if (idx !== -1 && idx >= IGNORE_FIRST_N_COLUMNS) {
+                    columnIndexes.push(idx);
+                }
+            });
+
+            // لو ولا عنوان اتطابق، نرجع نعرض كل الأعمدة بدل ما نطلع جدول فاضي
+            if (columnIndexes.length === 0) {
+                columnIndexes = headerRow
+                    .map((_, i) => i)
+                    .slice(IGNORE_FIRST_N_COLUMNS);
+            }
         } else {
-            // افتراضيًا: من بعد IGNORE_FIRST_N_COLUMNS إلى نهاية الصف
-            indexes = headerRow.map((_, i) => i).slice(IGNORE_FIRST_N_COLUMNS);
+            columnIndexes = headerRow
+                .map((_, i) => i)
+                .slice(IGNORE_FIRST_N_COLUMNS);
         }
 
-        // بناء الهيدر
+        // الهيدر
         tableHeaderRowEl.innerHTML = "";
-        indexes.forEach((colIndex, visibleIndex) => {
+        columnIndexes.forEach((colIndex, visibleIndex) => {
             const th = document.createElement("th");
             const headerText = headerRow[colIndex] || `عمود ${visibleIndex + 1}`;
             th.textContent = headerText;
             tableHeaderRowEl.appendChild(th);
         });
 
-        // بناء الجسم
+        // الجسم
         tableBodyEl.innerHTML = "";
 
         if (dataRows.length === 0) {
             tableBodyEl.innerHTML =
-                `<tr><td colspan="${indexes.length}" class="muted-text">لا توجد سجلات بعد.</td></tr>`;
+                `<tr><td colspan="${columnIndexes.length}" class="muted-text">لا توجد سجلات بعد.</td></tr>`;
             return;
         }
 
         dataRows.forEach(row => {
             const rowEl = document.createElement("tr");
 
-            indexes.forEach(colIndex => {
+            columnIndexes.forEach(colIndex => {
                 const td = document.createElement("td");
                 td.textContent = row[colIndex] || "";
                 rowEl.appendChild(td);
@@ -887,13 +933,8 @@
 
     async function loadLevel(levelKey) {
         const config = SHEETS_CONFIG[levelKey];
-        if (!config || !config.gid || !SPREADSHEET_ID) {
-            setErrorState("تأكد من ضبط SPREADSHEET_ID و gid لكل مرحلة في الكود.");
-            return;
-        }
-
-        if (config.gid.startsWith("CHANGE_ME")) {
-            setErrorState("لم يتم ضبط gid الخاص بهذه المرحلة في الكود بعد.");
+        if (!config || !config.sheetName || !SPREADSHEET_ID) {
+            setErrorState("تأكد من ضبط SPREADSHEET_ID واسم الشيت لكل مرحلة في الكود.");
             return;
         }
 
@@ -914,12 +955,12 @@
         setLoadingState(true, "جاري تحميل بيانات " + config.title + "...");
 
         try {
-            const url = buildCsvUrl(config.gid);
+            const url = buildCsvUrl(config.sheetName);
             const response = await fetch(url);
 
             if (!response.ok) {
                 throw new Error(
-                    "فشل الاتصال بـ Google Sheets، تأكد أن الشيت منشور للعامة (Publish to web)."
+                    "فشل الاتصال بـ Google Sheets، تأكد أن الشيت منشور للعامة (File → Share أو Publish to web)."
                 );
             }
 
