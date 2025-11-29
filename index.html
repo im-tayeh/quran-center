@@ -151,14 +151,18 @@
             justify-content: center;
             gap: 2px;
             padding: 8px 18px;
-            margin-top: 6px;
-            margin-bottom: 12px;
+        
+            /* المهم هنا */
+            margin-top: 26px;   /* بدل 6px */
+            margin-bottom: 16px;
+        
             border-radius: 999px;
             background: rgba(16,185,129,0.18);
             border: 1px solid rgba(16,185,129,0.6);
             color: #bbf7d0;
             font-size: 13px;
         }
+
 
         .splash-badge span:first-child {
             font-weight: 600;
@@ -467,6 +471,13 @@
             z-index: 5;
         }
 
+        .center-subtitle {
+            margin: 0 0 10px;
+            font-size: 16px;      /* أصغر من العنوان */
+            font-weight: 500;
+            color: #e5e7eb;
+        }
+
         thead th {
             padding: 8px 6px;
             font-size: 13px;
@@ -614,14 +625,17 @@
                 <img id="centerLogoBig" src="logo.png" alt="شعار المركز">
             </div>
 
-            <div class="splash-badge">
-                <span>نظام إدارة بيانات الطلاب والمحفظين</span>
-                <span>متابعة الحفظ والحضور والبيانات الأساسية داخل المركز</span>
+           <div class="splash-badge">
+                <span>البوابة الإلكترونية لمركز التحفيظ</span>
             </div>
 
             <h1 class="splash-title">
-                مركز النعمان بن مقرِّن لتعليم وتحفيظ القرآن والسنة
+                مركز النعمان بن مقرِّن
             </h1>
+            <p class="center-subtitle">
+                لتعليم وتحفيظ القرآن والسنة
+            </p>
+
             <p class="splash-subtitle">
                 بوابة إلكترونية لعرض بيانات الطلاب والمحفظين مباشرة من Google Sheets،
                 لتسهيل عمل الإدارة والمعلمين في المتابعة اليومية.
@@ -683,10 +697,6 @@
                     <button class="menu-btn level-btn" data-level="secondary">
                         <span class="icon">📕</span>
                         <span>المرحلة الثانوية</span>
-                    </button>
-                    <button class="menu-btn level-btn" data-level="university">
-                        <span class="icon">📙</span>
-                        <span>المرحلة الجامعية</span>
                     </button>
                     <button class="menu-btn level-btn" data-level="teachers">
                         <span class="icon">👨‍🏫</span>
@@ -764,10 +774,6 @@
         secondary: {
             sheetName: "المرحلة الثانوية",
             title: "المرحلة الثانوية"
-        },
-        university: {
-            sheetName: "المرحلة الجامعية",
-            title: "المرحلة الجامعية"
         },
         teachers: {
             sheetName: "المحفظين",
@@ -884,6 +890,26 @@
         return indexes;
     }
 
+        // تنظيف النص القادم من الـ CSV (إزالة "" وغيرها)
+    function normalizeCell(value) {
+        if (value === undefined || value === null) return "";
+    
+        let v = value.toString().trim();
+    
+        // خلية قيمتها بالضبط "" نخليها فاضية
+        if (v === '""') return "";
+    
+        // لو محاطة بعلامات تنصيص من الطرفين "نص"
+        if (v.startsWith('"') && v.endsWith('"')) {
+            v = v.slice(1, -1).trim();
+        }
+    
+        // استبدال "" داخل النص بعلامة تنصيص واحدة
+        v = v.replace(/""/g, '"');
+    
+        return v;
+    }
+
     function renderTable(rows, filterTerm = "") {
         if (!rows || rows.length === 0) {
             tableHeaderRowEl.innerHTML = "";
@@ -901,7 +927,7 @@
         tableHeaderRowEl.innerHTML = "";
         columnIndexes.forEach((colIndex, visibleIndex) => {
             const th = document.createElement("th");
-            const headerText = headerRow[colIndex] || `عمود ${visibleIndex + 1}`;
+            const headerText = normalizeCell(headerRow[colIndex]) || `عمود ${visibleIndex + 1}`;
             th.textContent = headerText;
             tableHeaderRowEl.appendChild(th);
         });
@@ -935,7 +961,7 @@
 
                 columnIndexes.forEach(colIndex => {
                     const td = document.createElement("td");
-                    td.textContent = row[colIndex] || "";
+                    td.textContent = normalizeCell(row[colIndex]);
                     rowEl.appendChild(td);
                 });
 
@@ -1038,5 +1064,6 @@
 </script>
 </body>
 </html>
+
 
 
