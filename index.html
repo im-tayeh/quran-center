@@ -100,28 +100,28 @@
 
         .logo-wrapper {
             position: relative;
-            margin-bottom: 14px;
-            display: inline-block;
+            margin-bottom: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* هالة ناعمة حول الشعار بدل الدائرة المتحركة القديمة */
-        .logo-wrapper::before {
-            content: "";
+        /* المستطيل المنقّط الذي يدور حول الشعار */
+        .logo-orbit {
             position: absolute;
-            inset: -20px;
-            border-radius: 999px;
-            background: radial-gradient(circle,
-            rgba(45,212,191,0.35) 0,
-            transparent 70%);
-            filter: blur(3px);
-            opacity: 0.9;
-            animation: glowPulse 3.5s ease-in-out infinite;
+            width: 210px;
+            height: 210px;
+            border-radius: 28px;
+            border: 2px dotted rgba(148,163,184,0.85);
+            box-shadow: 0 0 18px rgba(15,23,42,0.9);
+            pointer-events: none;
+            animation: orbitRotate 16s linear infinite;
+            transform-origin: center center;
         }
 
-        @keyframes glowPulse {
-            0%   { transform: scale(1);   opacity: 0.6; }
-            50%  { transform: scale(1.08); opacity: 1; }
-            100% { transform: scale(1);   opacity: 0.6; }
+        @keyframes orbitRotate {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
         }
 
         .logo-wrapper img {
@@ -144,7 +144,7 @@
             justify-content: center;
             gap: 2px;
             padding: 8px 18px;
-            margin-top: 4px;
+            margin-top: 6px;
             margin-bottom: 12px;
             border-radius: 999px;
             background: rgba(16,185,129,0.18);
@@ -403,6 +403,22 @@
             background: rgba(22,163,74,0.15);
         }
 
+        /* مربع البحث */
+
+        .search-input {
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.6);
+            background: rgba(15,23,42,0.9);
+            color: var(--text-main);
+            font-size: 12px;
+            min-width: 210px;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
         /* الجدول نفسه */
 
         .table-container {
@@ -586,18 +602,21 @@
         <div class="splash-content">
 
             <div class="logo-wrapper">
+                <div class="logo-orbit"></div>
                 <!-- تأكد أن logo.png في نفس المجلد -->
                 <img id="centerLogoBig" src="logo.png" alt="شعار المركز">
             </div>
 
             <div class="splash-badge">
-                <span>نظام إدارة بيانات الطلاب</span>
-                <span>متابعة الحفظ والحضور والبيانات الأساسية لكل طالب في المركز</span>
+                <span>نظام إدارة بيانات الطلاب والمحفظين</span>
+                <span>متابعة الحفظ والحضور والبيانات الأساسية داخل المركز</span>
             </div>
 
-            <h1 class="splash-title">مركز تحفيظ القرآن الكريم</h1>
+            <h1 class="splash-title">
+                مركز النعمان بن مقرِّن لتعليم وتحفيظ القرآن والسنة
+            </h1>
             <p class="splash-subtitle">
-                بوابة مخصّصة لعرض بيانات الطلاب حسب المرحلة الدراسية، مع تحديث تلقائي من جداول Google Sheets،
+                بوابة إلكترونية لعرض بيانات الطلاب والمحفظين مباشرة من Google Sheets،
                 لتسهيل عمل الإدارة والمعلمين في المتابعة اليومية.
             </p>
 
@@ -617,8 +636,8 @@
                 <div class="app-header-info">
                     <img id="centerLogoMini" class="app-logo-mini" src="logo.png" alt="شعار المركز">
                     <div class="app-header-text">
-                        <strong>لوحة بيانات طلاب مركز التحفيظ</strong>
-                        <span>عرض مباشر من Google Sheets لكل المراحل الدراسية</span>
+                        <strong>لوحة بيانات مركز النعمان بن مقرِّن</strong>
+                        <span>عرض مباشر لبيانات الطلاب والمحفظين من Google Sheets</span>
                     </div>
                 </div>
 
@@ -636,7 +655,7 @@
                     <div class="menu-buttons">
                         <button class="menu-btn active" id="studentsMainBtn">
                             <span class="icon">👨‍🎓</span>
-                            <span>بيانات الطلاب</span>
+                            <span>بيانات الطلاب والمحفظين</span>
                         </button>
                     </div>
                 </div>
@@ -644,7 +663,7 @@
 
             <!-- قائمة المراحل -->
             <div class="menu-card">
-                <div class="menu-title">اختر المرحلة الدراسية لعرض بياناتها</div>
+                <div class="menu-title">اختر المرحلة الدراسية أو قسم المحفظين لعرض بياناته</div>
                 <div class="menu-buttons">
                     <button class="menu-btn level-btn" data-level="primary">
                         <span class="icon">📘</span>
@@ -662,6 +681,10 @@
                         <span class="icon">📙</span>
                         <span>المرحلة الجامعية</span>
                     </button>
+                    <button class="menu-btn level-btn" data-level="teachers">
+                        <span class="icon">👨‍🏫</span>
+                        <span>المحفظون</span>
+                    </button>
                 </div>
             </div>
 
@@ -669,13 +692,14 @@
             <div class="table-section" id="tableSection">
                 <div class="table-header">
                     <div class="table-header-title">
-                        <h2 id="tableTitle">اختر مرحلة من الأعلى لعرض بيانات الطلاب</h2>
+                        <h2 id="tableTitle">اختر مرحلة من الأعلى لعرض بيانات الطلاب أو المحفظين</h2>
                         <span id="tableSubtitle">
                             لا يتم حفظ أي بيانات في هذه الصفحة، فقط قراءة مباشرة من Google Sheets.
                         </span>
                     </div>
 
                     <div class="table-header-actions">
+                        <input id="searchInput" class="search-input" type="text" placeholder="بحث باسم الطالب أو الحلقة..." />
                         <span id="statusPill" class="status-pill">لا يوجد تحميل حالياً</span>
                         <button id="reloadBtn" class="ghost-small">تحديث البيانات</button>
                     </div>
@@ -720,7 +744,7 @@
     const SPREADSHEET_ID = "14bW4VEbCGTOq55aYXiti6xZUPRkwMax7iC7NiynOjb4";
 
     // نفترض أن أسماء الصفحات داخل الشيت هي كالتالي (عدّلها لو مختلفة):
-    // "المرحلة الابتدائية" – "المرحلة الإعدادية" – "المرحلة الثانوية" – "المرحلة الجامعية"
+    // "المرحلة الابتدائية" – "المرحلة الإعدادية" – "المرحلة الثانوية" – "المرحلة الجامعية" – "المحفظين"
     const SHEETS_CONFIG = {
         primary: {
             sheetName: "المرحلة الابتدائية",
@@ -737,57 +761,22 @@
         university: {
             sheetName: "المرحلة الجامعية",
             title: "المرحلة الجامعية"
+        },
+        teachers: {
+            sheetName: "المحفظين",
+            title: "المحفظون"
         }
     };
 
-    // لو حابب تتجاهل أول N أعمدة (عادة 0)
-    const IGNORE_FIRST_N_COLUMNS = 0;
-
-    // تحديد الأعمدة المرئية لكل مرحلة بالاعتماد على "عنوان العمود" في الشيت
-    // لو خَلّيت القيمة null → يظهر كل الأعمدة.
-    // عدّل هذه القوائم حسب عناوين الأعمدة عندك بالضبط.
-    const VISIBLE_HEADERS = {
-        primary: [
-            "#",
-            "اسم الطالب",
-            "الصف",
-            "الحلقة",
-            "رقم جوال الطالب",
-            "رقم جوال ولي الأمر",
-            "الحفظ الحالي",
-            "ملاحظات"
-        ],
-        prep: [
-            "#",
-            "اسم الطالب",
-            "الصف",
-            "الحلقة",
-            "رقم جوال الطالب",
-            "رقم جوال ولي الأمر",
-            "الحفظ الحالي",
-            "ملاحظات"
-        ],
-        secondary: [
-            "#",
-            "اسم الطالب",
-            "الصف",
-            "الحلقة",
-            "رقم جوال الطالب",
-            "رقم جوال ولي الأمر",
-            "الحفظ الحالي",
-            "ملاحظات"
-        ],
-        university: [
-            "#",
-            "اسم الطالب",
-            "التخصص",
-            "الجامعة",
-            "الحلقة",
-            "رقم جوال الطالب",
-            "رقم جوال ولي الأمر",
-            "الحفظ الحالي",
-            "ملاحظات"
-        ]
+    // مدى الأعمدة المعروضة لكل قسم (0 = العمود A, 1 = B, 2 = C, ...)
+    // الابتدائي / إعدادي / ثانوي → من C إلى L (2 إلى 11)
+    // المحفظين → من A إلى L (0 إلى 11)
+    const COLUMN_RANGES = {
+        primary:   { start: 2, end: 11 },
+        prep:      { start: 2, end: 11 },
+        secondary: { start: 2, end: 11 },
+        teachers:  { start: 0, end: 11 }
+        // university: لا يوجد تحديد → كل الأعمدة
     };
 
     /******************************
@@ -806,8 +795,10 @@
     const loadingOverlayEl = document.getElementById("loadingOverlay");
     const reloadBtn = document.getElementById("reloadBtn");
     const statusPillEl = document.getElementById("statusPill");
+    const searchInputEl = document.getElementById("searchInput");
 
     let currentLevelKey = null;
+    let currentAllRows = null; // الصفوف الكاملة (هيدر + بيانات) للمرحلة الحالية
 
     /******************************
      *       وظائف مساعدة
@@ -829,6 +820,7 @@
             statusPillEl.classList.add("ok");
             statusPillEl.textContent = text || "جاري تحميل البيانات...";
         } else {
+            loadingOverlayEl.classList.remove("hidden");
             loadingOverlayEl.classList.add("hidden");
             statusPillEl.classList.remove("ok");
             statusPillEl.textContent = text || "جاهز";
@@ -862,7 +854,30 @@
         return rows;
     }
 
-    function renderTable(rows) {
+    // تحديد الأعمدة المعروضة حسب المرحلة
+    function getVisibleColumnIndexes(headerRow, levelKey) {
+        const range = COLUMN_RANGES[levelKey];
+
+        let indexes = [];
+        if (range) {
+            const start = Math.max(0, range.start);
+            const end = Math.min(headerRow.length - 1, range.end);
+            for (let i = start; i <= end; i++) {
+                indexes.push(i);
+            }
+        } else {
+            // لو ما في مدى مخصص (مثل الجامعي) → نعرض كل الأعمدة
+            indexes = headerRow.map((_, i) => i);
+        }
+
+        if (indexes.length === 0) {
+            indexes = headerRow.map((_, i) => i);
+        }
+
+        return indexes;
+    }
+
+    function renderTable(rows, filterTerm = "") {
         if (!rows || rows.length === 0) {
             tableHeaderRowEl.innerHTML = "";
             tableBodyEl.innerHTML =
@@ -873,30 +888,7 @@
         const headerRow = rows[0];
         const dataRows  = rows.slice(1);
 
-        // تحديد أي عناوين نعرضها لهذه المرحلة
-        const wantedHeaders = VISIBLE_HEADERS[currentLevelKey] || null;
-
-        let columnIndexes;
-        if (Array.isArray(wantedHeaders) && wantedHeaders.length > 0) {
-            columnIndexes = [];
-            wantedHeaders.forEach(h => {
-                const idx = headerRow.indexOf(h);
-                if (idx !== -1 && idx >= IGNORE_FIRST_N_COLUMNS) {
-                    columnIndexes.push(idx);
-                }
-            });
-
-            // لو ولا عنوان اتطابق، نرجع نعرض كل الأعمدة بدل ما نطلع جدول فاضي
-            if (columnIndexes.length === 0) {
-                columnIndexes = headerRow
-                    .map((_, i) => i)
-                    .slice(IGNORE_FIRST_N_COLUMNS);
-            }
-        } else {
-            columnIndexes = headerRow
-                .map((_, i) => i)
-                .slice(IGNORE_FIRST_N_COLUMNS);
-        }
+        const columnIndexes = getVisibleColumnIndexes(headerRow, currentLevelKey);
 
         // الهيدر
         tableHeaderRowEl.innerHTML = "";
@@ -913,22 +905,44 @@
         if (dataRows.length === 0) {
             tableBodyEl.innerHTML =
                 `<tr><td colspan="${columnIndexes.length}" class="muted-text">لا توجد سجلات بعد.</td></tr>`;
+            tableSubtitleEl.textContent = "لا توجد سجلات لهذه المرحلة حالياً.";
             return;
         }
 
-        dataRows.forEach(row => {
-            const rowEl = document.createElement("tr");
+        const normalizedFilter = (filterTerm || "").trim().toLowerCase();
 
-            columnIndexes.forEach(colIndex => {
-                const td = document.createElement("td");
-                td.textContent = row[colIndex] || "";
-                rowEl.appendChild(td);
+        const filteredRows = normalizedFilter
+            ? dataRows.filter(row =>
+                row.some(cell =>
+                    (cell || "").toString().toLowerCase().includes(normalizedFilter)
+                )
+            )
+            : dataRows;
+
+        if (filteredRows.length === 0) {
+            tableBodyEl.innerHTML =
+                `<tr><td colspan="${columnIndexes.length}" class="muted-text">لا توجد سجلات مطابقة لبحثك.</td></tr>`;
+        } else {
+            filteredRows.forEach(row => {
+                const rowEl = document.createElement("tr");
+
+                columnIndexes.forEach(colIndex => {
+                    const td = document.createElement("td");
+                    td.textContent = row[colIndex] || "";
+                    rowEl.appendChild(td);
+                });
+
+                tableBodyEl.appendChild(rowEl);
             });
+        }
 
-            tableBodyEl.appendChild(rowEl);
-        });
-
-        tableSubtitleEl.textContent = `إجمالي السجلات: ${dataRows.length}`;
+        if (normalizedFilter) {
+            tableSubtitleEl.textContent =
+                `إجمالي السجلات: ${filteredRows.length} من ${dataRows.length} (بعد التصفية)`;
+        } else {
+            tableSubtitleEl.textContent =
+                `إجمالي السجلات: ${dataRows.length}`;
+        }
     }
 
     async function loadLevel(levelKey) {
@@ -939,8 +953,10 @@
         }
 
         currentLevelKey = levelKey;
+        currentAllRows = null;
+        searchInputEl.value = "";
 
-        tableTitleEl.textContent = `بيانات الطلاب - ${config.title}`;
+        tableTitleEl.textContent = `بيانات ${config.title}`;
         tableSubtitleEl.textContent = "جاري تحميل البيانات من الشيت...";
 
         // تفعيل/إلغاء تفعيل أزرار المراحل
@@ -966,8 +982,9 @@
 
             const csvText = await response.text();
             const rows = parseCsv(csvText);
+            currentAllRows = rows;
 
-            renderTable(rows);
+            renderTable(currentAllRows);
             setLoadingState(false, "تم التحديث بنجاح");
 
         } catch (err) {
@@ -1001,6 +1018,13 @@
         } else {
             tableSubtitleEl.textContent = "اختر مرحلة أولاً ثم اضغط تحديث.";
         }
+    });
+
+    // البحث في الجدول
+    searchInputEl.addEventListener("input", () => {
+        if (!currentAllRows) return;
+        const term = searchInputEl.value;
+        renderTable(currentAllRows, term);
     });
 
     // لا تحميل تلقائي لأي مرحلة عند فتح الصفحة
