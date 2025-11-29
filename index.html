@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بيانات طلاب مركز التحفيظ</title>
+
+    <!-- خط عربي -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0f766e;
+            --primary-dark: #115e59;
+            --accent: #f59e0b;
+            --bg: #020617;
+            --card-bg: #0b1120;
+            --card-border: #1e293b;
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --danger: #dc2626;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Cairo", system-ui, sans-serif;
+            background: radial-gradient(circle at top, #1e293b 0, #020617 50%, #000 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        #app {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px 12px 32px;
+        }
+
+        /* ---------- شاشة البداية ---------- */
+
+        .splash {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .splash::before {
+            content: "";
+            position: absolute;
+            inset: -20%;
+            background:
+                    radial-gradient(circle at top, rgba(56,189,248,0.10), transparent 60%),
+                    radial-gradient(circle at bottom, rgba(52,211,153,0.10), transparent 60%);
+            opacity: 0.8;
+            filter: blur(4px);
+            animation: bgPulse 10s infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0%   { transform: scale(1);   opacity: 0.9; }
+            50%  { transform: scale(1.04); opacity: 1; }
+            100% { transform: scale(1.08); opacity: 0.8; }
+        }
+
+        .splash-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 540px;
+            padding: 32px 24px;
+            background: linear-gradient(to bottom right,
+            rgba(15,23,42,0.95),
+            rgba(15,23,42,0.85));
+            border-radius: 24px;
+            border: 1px solid rgba(148,163,184,0.35);
+            box-shadow: 0 20px 45px rgba(15,23,42,0.9);
+            animation: slideUp 1.2s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+
+        .logo-ring {
+            position: absolute;
+            inset: -12px;
+            border-radius: 999px;
+            border: 2px dashed rgba(94,234,212,0.8);
+            animation: spin 12s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(-360deg); }
+        }
+
+        .logo-wrapper img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(248,250,252,0.8);
+            box-shadow: 0 10px 25px rgba(15,23,42,0.9);
+        }
+
+        .splash-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(15,118,110,0.25);
+            border: 1px solid rgba(34,197,94,0.5);
+            color: #bbf7d0;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        .splash-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 8px 0 4px;
+        }
+
+        .splash-subtitle {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+        }
+
+        .start-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 32px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            color: #ecfeff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 12px 30px rgba(16,185,129,0.65);
+            transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 40px rgba(34,197,94,0.7);
+            filter: brightness(1.05);
+        }
+
+        .start-btn:active {
+            transform: translateY(1px) scale(0.99);
+            box-shadow: 0 10px 24px rgba(16,185,129,0.6);
+        }
+
+        .start-btn-icon {
+            font-size: 18px;
+        }
+
+        /* ---------- الواجهة الرئيسية ---------- */
+
+        .hidden {
+            display: none !important;
+        }
+
+        .main-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* الهيدر */
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 18px;
+            background: linear-gradient(to left,
+            rgba(15,23,42,0.95),
+            rgba(15,23,42,0.9));
+            border-radius: 18px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 22px rgba(15,23,42,0.8);
+        }
+
+        .app-header-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-logo-mini {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(248,250,252,0.7);
+        }
+
+        .app-header-text strong {
+            display: block;
+            font-size: 16px;
+        }
+
+        .app-header-text span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .outline-btn {
+            padding: 6px 10px;
+            font-size: 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.6);
+            background: transparent;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .outline-btn:hover {
+            border-color: rgba(248,250,252,0.9);
+        }
+
+        /* القوائم */
+
+        .menu-card {
+            background: rgba(15,23,42,0.96);
+            border-radius: 18px;
+            padding: 14px 16px;
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .menu-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .menu-title {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .menu-btn {
+            border: none;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: rgba(15,118,110,0.18);
+            color: #a5f3fc;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid transparent;
+            transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+        }
+
+        .menu-btn .icon {
+            font-size: 16px;
+        }
+
+        .menu-btn:hover {
+            background: rgba(13,148,136,0.40);
+            transform: translateY(-1px);
+            border-color: rgba(45,212,191,0.6);
+        }
+
+        .menu-btn.active {
+            background: linear-gradient(135deg, #0f766e, #14b8a6);
+            color: #ecfeff;
+            border-color: rgba(34,211,238,0.8);
+        }
+
+        /* قسم الجدول */
+
+        .table-section {
+            background: rgba(15,23,42,0.96);
+            border-radius: 18px;
+            border: 1px solid var(--card-border);
+            padding: 16px 16px 18px;
+            box-shadow: 0 16px 40px rgba(15,23,42,0.85);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .table-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .table-header-title h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .table-header-title span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .table-header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .primary-small,
+        .ghost-small {
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .primary-small {
+            border: none;
+            background: #0ea5e9;
+            color: #ecfeff;
+        }
+
+        .primary-small:hover {
+            filter: brightness(1.05);
+        }
+
+        .ghost-small {
+            border: 1px solid rgba(148,163,184,0.6);
+            background: transparent;
+            color: var(--text-main);
+        }
+
+        .status-pill {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.6);
+            color: var(--text-muted);
+        }
+
+        .status-pill.ok {
+            border-color: rgba(74,222,128,0.7);
+            color: #bbf7d0;
+            background: rgba(22,163,74,0.15);
+        }
+
+        /* الجدول نفسه */
+
+        .table-container {
+            position: relative;
+            border-radius: 14px;
+            border: 1px solid rgba(30,64,175,0.6);
+            overflow: hidden;
+        }
+
+        .table-scroll {
+            max-height: calc(100vh - 260px);
+            overflow: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #334155 transparent;
+        }
+
+        .table-scroll::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .table-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 999px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+
+        thead {
+            background: linear-gradient(to left, #1e293b, #0f172a);
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        thead th {
+            padding: 8px 6px;
+            font-size: 13px;
+            text-align: center;
+            border-bottom: 1px solid rgba(51,65,85,0.9);
+            white-space: nowrap;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(15,23,42,0.95);
+        }
+
+        tbody tr:nth-child(odd) {
+            background: rgba(15,23,42,0.90);
+        }
+
+        tbody td {
+            padding: 6px 6px;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(31,41,55,0.8);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: rgba(30,64,175,0.35);
+        }
+
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+            rgba(15,23,42,0.96),
+            rgba(15,23,42,0.96));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border-radius: 999px;
+            border: 3px solid rgba(148,163,184,0.4);
+            border-top-color: #38bdf8;
+            animation: spin 0.9s linear infinite;
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 13px;
+        }
+
+        .muted-text {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* ---------- Responsiveness ---------- */
+
+        @media (max-width: 1024px) {
+            #app {
+                padding: 16px 8px 24px;
+            }
+
+            .table-scroll {
+                max-height: calc(100vh - 240px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .splash-content {
+                margin: 0 12px;
+                padding: 24px 18px;
+            }
+
+            .splash-title {
+                font-size: 22px;
+            }
+
+            .splash-subtitle {
+                font-size: 14px;
+            }
+
+            .app-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 12px;
+            }
+
+            .menu-card {
+                padding: 10px 12px;
+            }
+
+            .table-section {
+                padding: 12px;
+            }
+
+            .table-scroll {
+                max-height: calc(100vh - 260px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .splash-title {
+                font-size: 20px;
+            }
+            .splash-subtitle {
+                font-size: 13px;
+            }
+
+            .menu-buttons {
+                width: 100%;
+            }
+
+            .menu-btn {
+                flex: 1 1 100%;
+                justify-content: center;
+            }
+
+            table {
+                min-width: 640px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+
+    <!-- شاشة البداية (الشعار + ابدأ) -->
+    <section id="splash" class="splash">
+        <div class="splash-content">
+            <div class="splash-badge">
+                <span>نظام إدارة بيانات الطلاب</span>
+            </div>
+
+            <div class="logo-wrapper">
+                <div class="logo-ring"></div>
+                <!-- شعار المركز من Google Drive -->
+                <img id="centerLogoBig"
+                     src="https://drive.google.com/uc?export=view&id=1mlrIojfUogSB6E7lojkmd9b7P_zEoHNs"
+                     alt="شعار المركز">
+            </div>
+
+            <h1 class="splash-title">مركز تحفيظ القرآن الكريم</h1>
+            <p class="splash-subtitle">
+                واجهة تفاعلية لاستعراض بيانات الطلاب حسب المرحلة الدراسية بشكل منظم واحترافي.
+            </p>
+
+            <button id="startBtn" class="start-btn">
+                <span class="start-btn-icon">▶</span>
+                <span>ابدأ</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- الواجهة الرئيسية -->
+    <section id="main" class="hidden">
+        <div class="main-layout">
+
+            <!-- الهيدر -->
+            <header class="app-header">
+                <div class="app-header-info">
+                    <!-- نفس الشعار لكن مصغّر -->
+                    <img id="centerLogoMini"
+                         class="app-logo-mini"
+                         src="https://drive.google.com/uc?export=view&id=1mlrIojfUogSB6E7lojkmd9b7P_zEoHNs"
+                         alt="شعار المركز">
+                    <div class="app-header-text">
+                        <strong>لوحة بيانات الطلاب</strong>
+                        <span>عرض مباشر من Google Sheets لكل المراحل الدراسية</span>
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="outline-btn" id="backToSplashBtn">
+                        الرجوع للشاشة الافتتاحية
+                    </button>
+                </div>
+            </header>
+
+            <!-- القائمة الأولى (بيانات الطلاب) -->
+            <div class="menu-card">
+                <div class="menu-section">
+                    <div class="menu-title">القائمة الرئيسية</div>
+                    <div class="menu-buttons">
+                        <button class="menu-btn active" id="studentsMainBtn">
+                            <span class="icon">👨‍🎓</span>
+                            <span>بيانات الطلاب</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قائمة المراحل -->
+            <div class="menu-card">
+                <div class="menu-title">اختر المرحلة الدراسية لعرض بياناتها</div>
+                <div class="menu-buttons">
+                    <button class="menu-btn level-btn" data-level="primary">
+                        <span class="icon">📘</span>
+                        <span>المرحلة الابتدائية</span>
+                    </button>
+                    <button class="menu-btn level-btn" data-level="prep">
+                        <span class="icon">📗</span>
+                        <span>المرحلة الإعدادية</span>
+                    </button>
+                    <button class="menu-btn level-btn" data-level="secondary">
+                        <span class="icon">📕</span>
+                        <span>المرحلة الثانوية</span>
+                    </button>
+                    <button class="menu-btn level-btn" data-level="university">
+                        <span class="icon">📙</span>
+                        <span>المرحلة الجامعية</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- قسم الجدول -->
+            <div class="table-section" id="tableSection">
+                <div class="table-header">
+                    <div class="table-header-title">
+                        <h2 id="tableTitle">اختر مرحلة من الأعلى لعرض بيانات الطلاب</h2>
+                        <span id="tableSubtitle">
+                            لا يتم حفظ أي بيانات في هذه الصفحة، فقط قراءة مباشرة من Google Sheets.
+                        </span>
+                    </div>
+
+                    <div class="table-header-actions">
+                        <span id="statusPill" class="status-pill">لا يوجد تحميل حالياً</span>
+                        <button id="reloadBtn" class="ghost-small">تحديث البيانات</button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table id="studentsTable">
+                            <thead>
+                            <tr id="tableHeaderRow">
+                                <!-- يُملأ تلقائياً -->
+                            </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                            <tr>
+                                <td colspan="10" class="muted-text">
+                                    لم يتم اختيار مرحلة بعد.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- طبقة تحميل -->
+                    <div id="loadingOverlay" class="loading-overlay hidden">
+                        <div class="spinner"></div>
+                        <div class="muted-text">جاري تحميل البيانات من Google Sheets...</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<script>
+    /******************************
+     *  الإعدادات
+     ******************************/
+
+    // ID ملف Google Sheets
+    const SPREADSHEET_ID = "14bW4VEbCGTOq55aYXiti6xZUPRkwMax7iC7NiynOjb4";
+
+    // تعريف الـ gid لكل تبويب
+    const SHEETS_CONFIG = {
+        primary: {      // المرحلة الابتدائية
+            gid: "926618487",
+            title: "المرحلة الابتدائية"
+        },
+        prep: {         // الإعدادية
+            gid: "CHANGE_ME_PREP_GID",
+            title: "المرحلة الإعدادية"
+        },
+        secondary: {    // الثانوية
+            gid: "CHANGE_ME_SECONDARY_GID",
+            title: "المرحلة الثانوية"
+        },
+        university: {   // الجامعية
+            gid: "CHANGE_ME_UNIVERSITY_GID",
+            title: "المرحلة الجامعية"
+        }
+    };
+
+    // لو حابب تتجاهل أول N أعمدة من كل صف
+    const IGNORE_FIRST_N_COLUMNS = 0;
+
+    /******************************
+     *        عناصر DOM
+     ******************************/
+
+    const splashEl = document.getElementById("splash");
+    const mainEl = document.getElementById("main");
+    const startBtn = document.getElementById("startBtn");
+    const backToSplashBtn = document.getElementById("backToSplashBtn");
+    const levelButtons = document.querySelectorAll(".level-btn");
+    const tableTitleEl = document.getElementById("tableTitle");
+    const tableSubtitleEl = document.getElementById("tableSubtitle");
+    const tableHeaderRowEl = document.getElementById("tableHeaderRow");
+    const tableBodyEl = document.getElementById("tableBody");
+    const loadingOverlayEl = document.getElementById("loadingOverlay");
+    const reloadBtn = document.getElementById("reloadBtn");
+    const statusPillEl = document.getElementById("statusPill");
+
+    let currentLevelKey = null;
+
+    /******************************
+     *       وظائف مساعدة
+     ******************************/
+
+    function showSplash() {
+        splashEl.classList.remove("hidden");
+        mainEl.classList.add("hidden");
+    }
+
+    function showMain() {
+        splashEl.classList.add("hidden");
+        mainEl.classList.remove("hidden");
+    }
+
+    function setLoadingState(isLoading, text) {
+        if (isLoading) {
+            loadingOverlayEl.classList.remove("hidden");
+            statusPillEl.classList.add("ok");
+            statusPillEl.textContent = text || "جاري تحميل البيانات...";
+        } else {
+            loadingOverlayEl.classList.add("hidden");
+            statusPillEl.classList.remove("ok");
+            statusPillEl.textContent = text || "جاهز";
+        }
+    }
+
+    function setErrorState(message) {
+        loadingOverlayEl.classList.add("hidden");
+        statusPillEl.classList.remove("ok");
+        statusPillEl.textContent = "حدث خطأ في التحميل";
+
+        tableHeaderRowEl.innerHTML = "";
+        tableBodyEl.innerHTML =
+            `<tr><td colspan="10" class="error-msg">${message}</td></tr>`;
+    }
+
+    function buildCsvUrl(gid) {
+        return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${gid}`;
+    }
+
+    // Parser بسيط للـ CSV
+    function parseCsv(csvText) {
+        const rows = [];
+        const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
+
+        for (const line of lines) {
+            const cells = line.split(",").map(c => c.trim());
+            rows.push(cells);
+        }
+        return rows;
+    }
+
+    function renderTable(rows) {
+        if (!rows || rows.length === 0) {
+            tableHeaderRowEl.innerHTML = "";
+            tableBodyEl.innerHTML =
+                `<tr><td colspan="10" class="muted-text">لا توجد بيانات للعرض.</td></tr>`;
+            return;
+        }
+
+        const headerRow = rows[0].slice(IGNORE_FIRST_N_COLUMNS);
+
+        // الهيدر
+        tableHeaderRowEl.innerHTML = "";
+        headerRow.forEach((header, index) => {
+            const th = document.createElement("th");
+            th.textContent = header || `عمود ${index + 1}`;
+            tableHeaderRowEl.appendChild(th);
+        });
+
+        // الجسم
+        tableBodyEl.innerHTML = "";
+        const dataRows = rows.slice(1);
+
+        if (dataRows.length === 0) {
+            tableBodyEl.innerHTML =
+                `<tr><td colspan="${headerRow.length}" class="muted-text">لا توجد سجلات بعد.</td></tr>`;
+            return;
+        }
+
+        dataRows.forEach(row => {
+            const rowEl = document.createElement("tr");
+            const cells = row.slice(IGNORE_FIRST_N_COLUMNS);
+
+            cells.forEach(cell => {
+                const td = document.createElement("td");
+                td.textContent = cell;
+                rowEl.appendChild(td);
+            });
+
+            tableBodyEl.appendChild(rowEl);
+        });
+
+        tableSubtitleEl.textContent = `إجمالي السجلات: ${dataRows.length}`;
+    }
+
+    async function loadLevel(levelKey) {
+        const config = SHEETS_CONFIG[levelKey];
+        if (!config || !config.gid || !SPREADSHEET_ID) {
+            setErrorState("تأكد من ضبط SPREADSHEET_ID و gid لكل مرحلة في الكود.");
+            return;
+        }
+
+        // لو لسه ما غيرتش قيم CHANGE_ME خليها ما تشتغلش بدل ما تعطي خطأ غريب
+        if (config.gid.startsWith("CHANGE_ME")) {
+            setErrorState("لم يتم ضبط gid الخاص بهذه المرحلة في الكود بعد.");
+            return;
+        }
+
+        currentLevelKey = levelKey;
+
+        tableTitleEl.textContent = `بيانات الطلاب - ${config.title}`;
+        tableSubtitleEl.textContent = "جاري تحميل البيانات من الشيت...";
+
+        // تفعيل/إلغاء تفعيل أزرار المراحل
+        levelButtons.forEach(btn => {
+            if (btn.dataset.level === levelKey) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+
+        setLoadingState(true, "جاري تحميل بيانات " + config.title + "...");
+
+        try {
+            const url = buildCsvUrl(config.gid);
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(
+                    "فشل الاتصال بـ Google Sheets، تأكد أن الشيت منشور للعامة (Publish to web)."
+                );
+            }
+
+            const csvText = await response.text();
+            const rows = parseCsv(csvText);
+
+            renderTable(rows);
+            setLoadingState(false, "تم التحديث بنجاح");
+
+        } catch (err) {
+            console.error(err);
+            setErrorState("تعذر تحميل البيانات: " + err.message);
+        }
+    }
+
+    /******************************
+     *       ربط الأحداث
+     ******************************/
+
+    startBtn.addEventListener("click", () => {
+        showMain();
+    });
+
+    backToSplashBtn.addEventListener("click", () => {
+        showSplash();
+    });
+
+    levelButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const levelKey = btn.dataset.level;
+            loadLevel(levelKey);
+        });
+    });
+
+    reloadBtn.addEventListener("click", () => {
+        if (currentLevelKey) {
+            loadLevel(currentLevelKey);
+        } else {
+            tableSubtitleEl.textContent = "اختر مرحلة أولاً ثم اضغط تحديث.";
+        }
+    });
+
+    // لا تحميل تلقائي لأي مرحلة عند فتح الصفحة
+</script>
+</body>
+</html>
