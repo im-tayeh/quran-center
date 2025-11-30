@@ -836,16 +836,46 @@
         return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&cb=${cacheBuster}`;
     }
 
-    function parseCsv(csvText) {
-        const rows = [];
-        const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
+    // Parser محترم للـ CSV: يحترم علامات التنصيص ويحافظ على الفواصل داخل الخلية
+function parseCsv(csvText) {
+    const rows = [];
+    const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
 
-        for (const line of lines) {
-            const cells = line.split(",").map(c => c.trim());
-            rows.push(cells);
+    for (const line of lines) {
+        const cells = [];
+        let current = "";
+        let inQuotes = false;
+
+        for (let i = 0; i < line.length; i++) {
+            const ch = line[i];
+
+            if (ch === '"') {
+                // لو داخل تنصيص ولقينا "" → نعتبرها علامة تنصيص واحدة داخل النص
+                if (inQuotes && line[i + 1] === '"') {
+                    current += '"';
+                    i++; // نتخطى العلامة الثانية
+                } else {
+                    // نفتح أو نغلق التنصيص
+                    inQuotes = !inQuotes;
+                }
+            } else if (ch === "," && !inQuotes) {
+                // فاصلة خارج التنصيص → نهاية خلية
+                cells.push(current);
+                current = "";
+            } else {
+                current += ch;
+            }
         }
-        return rows;
+
+        // آخر خلية في السطر
+        cells.push(current);
+
+        // تنظيف المسافات الزائدة
+        rows.push(cells.map(c => c.trim()));
     }
+
+    return rows;
+}
 
     function getVisibleColumnIndexes(headerRow, levelKey) {
         const range = COLUMN_RANGES[levelKey];
@@ -1043,4 +1073,5 @@
 </script>
 </body>
 </html>
+
 
