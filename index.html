@@ -837,6 +837,7 @@
     }
 
     // Parser محترم للـ CSV: يحترم علامات التنصيص ويحافظ على الفواصل داخل الخلية
+// Parser محترم للـ CSV: يحترم علامات التنصيص ويحافظ على الفواصل داخل الخلية
 function parseCsv(csvText) {
     const rows = [];
     const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
@@ -866,6 +867,16 @@ function parseCsv(csvText) {
                 current += ch;
             }
         }
+
+        // آخر خلية في السطر
+        cells.push(current);
+
+        // تنظيف المسافات الزائدة
+        rows.push(cells.map(c => c.trim()));
+    }
+
+    return rows;
+}
 
         // آخر خلية في السطر
         cells.push(current);
@@ -1073,5 +1084,6 @@ function parseCsv(csvText) {
 </script>
 </body>
 </html>
+
 
 
