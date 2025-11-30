@@ -282,7 +282,7 @@
             flex-wrap: wrap;
             gap: 10px;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start; /* زر الرئيسية بجانب العنوان على اليمين */
         }
 
         .menu-title {
@@ -543,24 +543,24 @@
                     <img id="centerLogoMini" class="app-logo-mini" src="logo.png" alt="شعار المركز">
                     <div class="app-header-text">
                         <strong>لوحة بيانات مركز النعمان بن مقرِّن</strong>
-                        <span>عرض مباشر لبيانات الطلاب والمحفظين من Google Sheets</span>
+                        <span>منصة رقمية لخدمات المركز التعليمية والإدارية</span>
                     </div>
                 </div>
 
                 <div class="header-actions">
-                    <button class="outline-btn" id="backToSplashBtn">الرجوع للشاشة الافتتاحية</button>
+                    <!-- لا يوجد زر رجوع للشاشة الافتتاحية الآن -->
                 </div>
             </header>
 
             <div class="menu-card">
                 <div class="menu-section">
-                    <div class="menu-title">القائمة الرئيسية</div>
                     <div class="menu-buttons">
                         <button class="menu-btn active" id="studentsMainBtn">
                             <span class="icon">👨‍🎓</span>
                             <span>بيانات الطلاب والمحفظين</span>
                         </button>
                     </div>
+                    <div class="menu-title">القائمة الرئيسية</div>
                 </div>
             </div>
 
@@ -648,13 +648,12 @@ const COLUMN_RANGES = {
     teachers:  { start: 0, end: 11 }  // A → L
 };
 
-
 /*************** عناصر DOM ***************/
 
 const splashEl        = document.getElementById("splash");
 const mainEl          = document.getElementById("main");
 const startBtn        = document.getElementById("startBtn");
-const backToSplashBtn = document.getElementById("backToSplashBtn");
+const studentsMainBtn = document.getElementById("studentsMainBtn");
 const levelButtons    = document.querySelectorAll(".level-btn");
 const tableTitleEl    = document.getElementById("tableTitle");
 const tableSubtitleEl = document.getElementById("tableSubtitle");
@@ -885,7 +884,9 @@ async function loadLevel(levelKey) {
 /*************** الأحداث ***************/
 
 startBtn.addEventListener("click", showMain);
-backToSplashBtn.addEventListener("click", showSplash);
+
+// زر الشاشة الرئيسية (القائمة الرئيسية → بيانات الطلاب والمحفظين)
+studentsMainBtn.addEventListener("click", showMain);
 
 levelButtons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -909,6 +910,3 @@ searchInputEl.addEventListener("input", () => {
 
 </body>
 </html>
-
-
-
