@@ -642,10 +642,10 @@ const SHEETS_CONFIG = {
 
 // الأعمدة (0 = A, 1 = B, 2 = C, ...)
 const COLUMN_RANGES = {
-    primary:   null,
-    prep:      null,
-    secondary: null,
-    teachers:  null
+    primary:   { start: 2, end: 10 }, // C → L
+    prep:      { start: 2, end: 10 }, // C → L
+    secondary: { start: 2, end: 10 }, // C → L
+    teachers:  { start: 0, end: 11 }  // A → L
 };
 
 
@@ -909,5 +909,6 @@ searchInputEl.addEventListener("input", () => {
 
 </body>
 </html>
+
 
 
