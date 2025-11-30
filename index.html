@@ -21,9 +21,7 @@
             --danger: #dc2626;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -78,8 +76,8 @@
             max-width: 540px;
             padding: 32px 24px;
             background: linear-gradient(to bottom right,
-            rgba(15,23,42,0.95),
-            rgba(15,23,42,0.9));
+                rgba(15,23,42,0.95),
+                rgba(15,23,42,0.9));
             border-radius: 24px;
             border: 1px solid rgba(148,163,184,0.35);
             box-shadow: 0 20px 45px rgba(15,23,42,0.9);
@@ -92,14 +90,8 @@
         }
 
         @keyframes slideUp {
-            from {
-                transform: translateY(40px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(40px); opacity: 0; }
+            to   { transform: translateY(0);   opacity: 1; }
         }
 
         .logo-wrapper {
@@ -110,7 +102,6 @@
             justify-content: center;
         }
 
-        /* المستطيل المنقّط الذي يدور حول الشعار */
         .logo-orbit {
             position: absolute;
             width: 210px;
@@ -140,7 +131,6 @@
             background: #020617;
         }
 
-        /* كارت نظام إدارة البيانات تحت الشعار */
         .splash-badge {
             display: inline-flex;
             flex-direction: column;
@@ -148,11 +138,8 @@
             justify-content: center;
             gap: 2px;
             padding: 8px 18px;
-
-            /* إنزال المربع الأخضر أكثر */
             margin-top: 40px;
             margin-bottom: 16px;
-
             border-radius: 999px;
             background: rgba(16,185,129,0.18);
             border: 1px solid rgba(16,185,129,0.6);
@@ -160,9 +147,7 @@
             font-size: 13px;
         }
 
-        .splash-badge span:first-child {
-            font-weight: 600;
-        }
+        .splash-badge span:first-child { font-weight: 600; }
 
         .splash-title {
             font-size: 24px;
@@ -211,23 +196,17 @@
             box-shadow: 0 10px 24px rgba(16,185,129,0.6);
         }
 
-        .start-btn-icon {
-            font-size: 18px;
-        }
+        .start-btn-icon { font-size: 18px; }
 
         /* ---------- الواجهة الرئيسية ---------- */
 
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
 
         .main-layout {
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
-
-        /* الهيدر */
 
         .app-header {
             display: flex;
@@ -236,8 +215,8 @@
             gap: 12px;
             padding: 14px 18px;
             background: linear-gradient(to left,
-            rgba(15,23,42,0.97),
-            rgba(15,23,42,0.92));
+                rgba(15,23,42,0.97),
+                rgba(15,23,42,0.92));
             border-radius: 18px;
             border: 1px solid var(--card-border);
             box-shadow: 0 8px 22px rgba(15,23,42,0.8);
@@ -288,8 +267,6 @@
             border-color: rgba(248,250,252,0.9);
         }
 
-        /* القوائم */
-
         .menu-card {
             background: rgba(15,23,42,0.96);
             border-radius: 18px;
@@ -334,9 +311,7 @@
             transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
         }
 
-        .menu-btn .icon {
-            font-size: 16px;
-        }
+        .menu-btn .icon { font-size: 16px; }
 
         .menu-btn:hover {
             background: rgba(13,148,136,0.40);
@@ -349,8 +324,6 @@
             color: #ecfeff;
             border-color: rgba(34,211,238,0.8);
         }
-
-        /* قسم الجدول */
 
         .table-section {
             background: rgba(15,23,42,0.96);
@@ -412,8 +385,6 @@
             background: rgba(22,163,74,0.15);
         }
 
-        /* مربع البحث */
-
         .search-input {
             padding: 6px 10px;
             border-radius: 999px;
@@ -427,8 +398,6 @@
         .search-input::placeholder {
             color: var(--text-muted);
         }
-
-        /* الجدول نفسه */
 
         .table-container {
             position: relative;
@@ -444,13 +413,8 @@
             scrollbar-color: #334155 transparent;
         }
 
-        .table-scroll::-webkit-scrollbar {
-            height: 8px;
-            width: 8px;
-        }
-        .table-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
+        .table-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
+        .table-scroll::-webkit-scrollbar-track { background: transparent; }
         .table-scroll::-webkit-scrollbar-thumb {
             background: #334155;
             border-radius: 999px;
@@ -477,13 +441,8 @@
             white-space: nowrap;
         }
 
-        tbody tr:nth-child(even) {
-            background: rgba(15,23,42,0.95);
-        }
-
-        tbody tr:nth-child(odd) {
-            background: rgba(15,23,42,0.90);
-        }
+        tbody tr:nth-child(even) { background: rgba(15,23,42,0.95); }
+        tbody tr:nth-child(odd)  { background: rgba(15,23,42,0.90); }
 
         tbody td {
             padding: 6px 6px;
@@ -493,16 +452,12 @@
             white-space: nowrap;
         }
 
-        tbody tr:hover {
-            background: rgba(30,64,175,0.35);
-        }
+        tbody tr:hover { background: rgba(30,64,175,0.35); }
 
         .loading-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom,
-            rgba(15,23,42,0.96),
-            rgba(15,23,42,0.96));
+            background: rgba(15,23,42,0.96);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -520,96 +475,41 @@
             animation: spin 0.9s linear infinite;
         }
 
-        .error-msg {
-            color: var(--danger);
-            font-size: 13px;
-        }
+        .error-msg { color: var(--danger); font-size: 13px; }
+        .muted-text { color: var(--text-muted); font-size: 12px; }
 
-        .muted-text {
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* ---------- Responsiveness ---------- */
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         @media (max-width: 1024px) {
-            #app {
-                padding: 16px 8px 24px;
-            }
-
-            .table-scroll {
-                max-height: calc(100vh - 240px);
-            }
+            #app { padding: 16px 8px 24px; }
+            .table-scroll { max-height: calc(100vh - 240px); }
         }
 
         @media (max-width: 768px) {
-            .splash-content {
-                margin: 0 12px;
-                padding: 24px 18px;
-            }
-
-            .splash-title {
-                font-size: 22px;
-            }
-
-            .splash-subtitle {
-                font-size: 14px;
-            }
-
-            .app-header {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 10px 12px;
-            }
-
-            .menu-card {
-                padding: 10px 12px;
-            }
-
-            .table-section {
-                padding: 12px;
-            }
-
-            .table-scroll {
-                max-height: calc(100vh - 260px);
-            }
+            .splash-content { margin: 0 12px; padding: 24px 18px; }
+            .splash-title   { font-size: 22px; }
+            .splash-subtitle{ font-size: 14px; }
+            .app-header     { flex-direction: column; align-items: flex-start; padding: 10px 12px; }
+            .menu-card      { padding: 10px 12px; }
+            .table-section  { padding: 12px; }
+            .table-scroll   { max-height: calc(100vh - 260px); }
         }
 
         @media (max-width: 480px) {
-            .splash-title {
-                font-size: 20px;
-            }
-            .splash-subtitle {
-                font-size: 13px;
-            }
-
-            .menu-buttons {
-                width: 100%;
-            }
-
-            .menu-btn {
-                flex: 1 1 100%;
-                justify-content: center;
-            }
-
-            table {
-                min-width: 640px;
-            }
+            .splash-title    { font-size: 20px; }
+            .splash-subtitle { font-size: 13px; }
+            .menu-buttons    { width: 100%; }
+            .menu-btn        { flex: 1 1 100%; justify-content: center; }
+            table            { min-width: 640px; }
         }
     </style>
 </head>
 
 <body>
 <div id="app">
-
     <!-- شاشة البداية -->
     <section id="splash" class="splash">
         <div class="splash-content">
-
             <div class="logo-wrapper">
                 <div class="logo-orbit"></div>
                 <img id="centerLogoBig" src="logo.png" alt="شعار المركز">
@@ -619,12 +519,8 @@
                 <span>البوابة الإلكترونية لمركز التحفيظ</span>
             </div>
 
-            <h1 class="splash-title">
-                مركز النعمان بن مقرِّن
-            </h1>
-            <p class="center-subtitle">
-                لتعليم وتحفيظ القرآن والسنة
-            </p>
+            <h1 class="splash-title">مركز النعمان بن مقرِّن</h1>
+            <p class="center-subtitle">لتعليم وتحفيظ القرآن والسنة</p>
 
             <p class="splash-subtitle">
                 بوابة إلكترونية لعرض بيانات الطلاب والمحفظين مباشرة من Google Sheets،
@@ -642,7 +538,6 @@
     <section id="main" class="hidden">
         <div class="main-layout">
 
-            <!-- الهيدر -->
             <header class="app-header">
                 <div class="app-header-info">
                     <img id="centerLogoMini" class="app-logo-mini" src="logo.png" alt="شعار المركز">
@@ -653,13 +548,10 @@
                 </div>
 
                 <div class="header-actions">
-                    <button class="outline-btn" id="backToSplashBtn">
-                        الرجوع للشاشة الافتتاحية
-                    </button>
+                    <button class="outline-btn" id="backToSplashBtn">الرجوع للشاشة الافتتاحية</button>
                 </div>
             </header>
 
-            <!-- القائمة الأولى (بيانات الطلاب) -->
             <div class="menu-card">
                 <div class="menu-section">
                     <div class="menu-title">القائمة الرئيسية</div>
@@ -672,7 +564,6 @@
                 </div>
             </div>
 
-            <!-- قائمة المراحل -->
             <div class="menu-card">
                 <div class="menu-title">اختر المرحلة الدراسية أو قسم المحفظين لعرض بياناته</div>
                 <div class="menu-buttons">
@@ -695,7 +586,6 @@
                 </div>
             </div>
 
-            <!-- قسم الجدول -->
             <div class="table-section" id="tableSection">
                 <div class="table-header">
                     <div class="table-header-title">
@@ -720,9 +610,7 @@
                             </thead>
                             <tbody id="tableBody">
                                 <tr>
-                                    <td colspan="10" class="muted-text">
-                                        لم يتم اختيار مرحلة بعد.
-                                    </td>
+                                    <td colspan="10" class="muted-text">لم يتم اختيار مرحلة بعد.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -740,107 +628,87 @@
 </div>
 
 <script>
-    /******************************
-     *  الإعدادات العامة
-     ******************************/
+const SPREADSHEET_ID = "14bW4VEbCGTOq55aYXiti6xZUPRkwMax7iC7NiynOjb4";
 
-    const SPREADSHEET_ID = "14bW4VEbCGTOq55aYXiti6xZUPRkwMax7iC7NiynOjb4";
+// الشيتات المستخدمة
+const SHEETS_CONFIG = {
+    primary:   { sheetName: "المرحلة الابتدائية", title: "المرحلة الابتدائية" },
+    prep:      { sheetName: "المرحلة الإعدادية",  title: "المرحلة الإعدادية" },
+    secondary: { sheetName: "المرحلة الثانوية",    title: "المرحلة الثانوية" },
+    teachers:  { sheetName: "المحفظين",            title: "المحفظون" }
+};
 
-    // الشيتات المستخدمة فعلياً
-    const SHEETS_CONFIG = {
-        primary: {
-            sheetName: "المرحلة الابتدائية",
-            title: "المرحلة الابتدائية"
-        },
-        prep: {
-            sheetName: "المرحلة الإعدادية",
-            title: "المرحلة الإعدادية"
-        },
-        secondary: {
-            sheetName: "المرحلة الثانوية",
-            title: "المرحلة الثانوية"
-        },
-        teachers: {
-            sheetName: "المحفظين",
-            title: "المحفظون"
-        }
-    };
+// مدى الأعمدة لكل قسم (0 = A, 1 = B, 2 = C, ...)
+const COLUMN_RANGES = {
+    primary:   { start: 2, end: 11 }, // C .. L
+    prep:      { start: 2, end: 11 },
+    secondary: { start: 2, end: 11 },
+    teachers:  { start: 0, end: 11 }  // A .. L
+};
 
-    // مدى الأعمدة المعروضة لكل قسم (0 = العمود A, 1 = B, 2 = C, ...)
-    const COLUMN_RANGES = {
-        primary:   { start: 2, end: 10 }, // C → L
-        prep:      { start: 2, end: 10 }, // C → L
-        secondary: { start: 2, end: 10 }, // C → L
-        teachers:  { start: 0, end: 10 }  // A → L
-    };
+/* -------- عناصر DOM -------- */
 
-    /******************************
-     *        عناصر DOM
-     ******************************/
+const splashEl        = document.getElementById("splash");
+const mainEl          = document.getElementById("main");
+const startBtn        = document.getElementById("startBtn");
+const backToSplashBtn = document.getElementById("backToSplashBtn");
+const levelButtons    = document.querySelectorAll(".level-btn");
+const tableTitleEl    = document.getElementById("tableTitle");
+const tableSubtitleEl = document.getElementById("tableSubtitle");
+const tableHeaderRowEl= document.getElementById("tableHeaderRow");
+const tableBodyEl     = document.getElementById("tableBody");
+const loadingOverlayEl= document.getElementById("loadingOverlay");
+const reloadBtn       = document.getElementById("reloadBtn");
+const statusPillEl    = document.getElementById("statusPill");
+const searchInputEl   = document.getElementById("searchInput");
 
-    const splashEl = document.getElementById("splash");
-    const mainEl = document.getElementById("main");
-    const startBtn = document.getElementById("startBtn");
-    const backToSplashBtn = document.getElementById("backToSplashBtn");
-    const levelButtons = document.querySelectorAll(".level-btn");
-    const tableTitleEl = document.getElementById("tableTitle");
-    const tableSubtitleEl = document.getElementById("tableSubtitle");
-    const tableHeaderRowEl = document.getElementById("tableHeaderRow");
-    const tableBodyEl = document.getElementById("tableBody");
-    const loadingOverlayEl = document.getElementById("loadingOverlay");
-    const reloadBtn = document.getElementById("reloadBtn");
-    const statusPillEl = document.getElementById("statusPill");
-    const searchInputEl = document.getElementById("searchInput");
+let currentLevelKey = null;
+let currentAllRows  = null;
 
-    let currentLevelKey = null;
-    let currentAllRows = null;
+/* -------- وظائف واجهة -------- */
 
-    /******************************
-     *       وظائف مساعدة
-     ******************************/
+function showSplash() {
+    splashEl.classList.remove("hidden");
+    mainEl.classList.add("hidden");
+}
 
-    function showSplash() {
-        splashEl.classList.remove("hidden");
-        mainEl.classList.add("hidden");
-    }
+function showMain() {
+    splashEl.classList.add("hidden");
+    mainEl.classList.remove("hidden");
+}
 
-    function showMain() {
-        splashEl.classList.add("hidden");
-        mainEl.classList.remove("hidden");
-    }
-
-    function setLoadingState(isLoading, text) {
-        if (isLoading) {
-            loadingOverlayEl.classList.remove("hidden");
-            statusPillEl.classList.add("ok");
-            statusPillEl.textContent = text || "جاري تحميل البيانات...";
-        } else {
-            loadingOverlayEl.classList.add("hidden");
-            statusPillEl.classList.remove("ok");
-            statusPillEl.textContent = text || "جاهز";
-        }
-    }
-
-    function setErrorState(message) {
+function setLoadingState(isLoading, text) {
+    if (isLoading) {
+        loadingOverlayEl.classList.remove("hidden");
+        statusPillEl.classList.add("ok");
+        statusPillEl.textContent = text || "جاري تحميل البيانات...";
+    } else {
         loadingOverlayEl.classList.add("hidden");
         statusPillEl.classList.remove("ok");
-        statusPillEl.textContent = "حدث خطأ في التحميل";
-
-        tableHeaderRowEl.innerHTML = "";
-        tableBodyEl.innerHTML =
-            `<tr><td colspan="10" class="error-msg">${message}</td></tr>`;
+        statusPillEl.textContent = text || "جاهز";
     }
+}
 
-    function buildCsvUrl(sheetName) {
-        const cacheBuster = Date.now(); // رقم يتغير كل مرة
-        return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&cb=${cacheBuster}`;
-    }
+function setErrorState(message) {
+    loadingOverlayEl.classList.add("hidden");
+    statusPillEl.classList.remove("ok");
+    statusPillEl.textContent = "حدث خطأ في التحميل";
+    tableHeaderRowEl.innerHTML = "";
+    tableBodyEl.innerHTML =
+        `<tr><td colspan="10" class="error-msg">${message}</td></tr>`;
+}
 
-    // Parser محترم للـ CSV: يحترم علامات التنصيص ويحافظ على الفواصل داخل الخلية
-// Parser محترم للـ CSV: يحترم علامات التنصيص ويحافظ على الفواصل داخل الخلية
+/* -------- الاتصال بالـ Sheets -------- */
+
+function buildCsvUrl(sheetName) {
+    const cacheBuster = Date.now(); // يمنع الكاش
+    return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&cb=${cacheBuster}`;
+}
+
+// Parser محترم للـ CSV (يحترم التنصيص والفواصل داخل الخلية)
 function parseCsv(csvText) {
     const rows = [];
-    const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
+    const lines = csvText.split(/\r?\n/).filter(l => l.length > 0);
 
     for (const line of lines) {
         const cells = [];
@@ -851,16 +719,13 @@ function parseCsv(csvText) {
             const ch = line[i];
 
             if (ch === '"') {
-                // لو داخل تنصيص ولقينا "" → نعتبرها علامة تنصيص واحدة داخل النص
                 if (inQuotes && line[i + 1] === '"') {
                     current += '"';
                     i++; // نتخطى العلامة الثانية
                 } else {
-                    // نفتح أو نغلق التنصيص
                     inQuotes = !inQuotes;
                 }
             } else if (ch === "," && !inQuotes) {
-                // فاصلة خارج التنصيص → نهاية خلية
                 cells.push(current);
                 current = "";
             } else {
@@ -868,221 +733,171 @@ function parseCsv(csvText) {
             }
         }
 
-        // آخر خلية في السطر
         cells.push(current);
-
-        // تنظيف المسافات الزائدة
-        rows.push(cells.map(c => c.trim()));
+        rows.push(cells);
     }
 
     return rows;
 }
 
-        // آخر خلية في السطر
-        cells.push(current);
+/* -------- منطق الجدول -------- */
 
-        // تنظيف المسافات الزائدة
-        rows.push(cells.map(c => c.trim()));
+function getVisibleColumnIndexes(headerRow, levelKey) {
+    const range = COLUMN_RANGES[levelKey];
+    let indexes = [];
+
+    if (range) {
+        const start = Math.max(0, range.start);
+        const end   = Math.min(headerRow.length - 1, range.end);
+        for (let i = start; i <= end; i++) indexes.push(i);
+    } else {
+        indexes = headerRow.map((_, i) => i);
     }
 
-    return rows;
+    if (indexes.length === 0) {
+        indexes = headerRow.map((_, i) => i);
+    }
+
+    return indexes;
 }
 
-    function getVisibleColumnIndexes(headerRow, levelKey) {
-        const range = COLUMN_RANGES[levelKey];
+// لا نعمل أي تنظيف: نعرض القيمة كما هي مهما كانت
+function normalizeCell(value) {
+    if (value === undefined || value === null) return "";
+    return String(value);
+}
 
-        let indexes = [];
-        if (range) {
-            const start = Math.max(0, range.start);
-            const end = Math.min(headerRow.length - 1, range.end);
-            for (let i = start; i <= end; i++) {
-                indexes.push(i);
-            }
-        } else {
-            indexes = headerRow.map((_, i) => i);
-        }
-
-        if (indexes.length === 0) {
-            indexes = headerRow.map((_, i) => i);
-        }
-
-        return indexes;
-    }
-
-    // تنظيف النص القادم من الـ CSV
-    function normalizeCell(value) {
-        if (value === undefined || value === null) return "";
-
-        let v = value.toString().trim();
-
-        // لو الخلية عبارة عن علامات تنصيص فقط (أي عدد) نعتبرها فاضية
-        const noQuotes = v.replace(/"/g, "");
-        if (noQuotes.length === 0) {
-            return "";
-        }
-
-        // إزالة علامات تنصيص من البداية والنهاية لو موجودة
-        while (v.startsWith('"') && v.endsWith('"') && v.length >= 2) {
-            v = v.slice(1, -1).trim();
-        }
-
-        // بعد التنظيف، لو ما بقى إلا علامات تنصيص → فاضية
-        if (v.replace(/"/g, "").length === 0) {
-            return "";
-        }
-
-        return v;
-    }
-
-    function renderTable(rows, filterTerm = "") {
-        if (!rows || rows.length === 0) {
-            tableHeaderRowEl.innerHTML = "";
-            tableBodyEl.innerHTML =
-                `<tr><td colspan="10" class="muted-text">لا توجد بيانات للعرض.</td></tr>`;
-            return;
-        }
-
-        const headerRow = rows[0];
-        const dataRows  = rows.slice(1);
-
-        const columnIndexes = getVisibleColumnIndexes(headerRow, currentLevelKey);
-
-        // الهيدر
+function renderTable(rows, filterTerm = "") {
+    if (!rows || rows.length === 0) {
         tableHeaderRowEl.innerHTML = "";
-        columnIndexes.forEach((colIndex, visibleIndex) => {
-            const th = document.createElement("th");
-            const headerText = normalizeCell(headerRow[colIndex]) || `عمود ${visibleIndex + 1}`;
-            th.textContent = headerText;
-            tableHeaderRowEl.appendChild(th);
-        });
+        tableBodyEl.innerHTML =
+            `<tr><td colspan="10" class="muted-text">لا توجد بيانات للعرض.</td></tr>`;
+        return;
+    }
 
-        // الجسم
-        tableBodyEl.innerHTML = "";
+    const headerRow = rows[0];
+    const dataRows  = rows.slice(1);
+    const columnIndexes = getVisibleColumnIndexes(headerRow, currentLevelKey);
 
-        if (dataRows.length === 0) {
-            tableBodyEl.innerHTML =
-                `<tr><td colspan="${columnIndexes.length}" class="muted-text">لا توجد سجلات بعد.</td></tr>`;
-            tableSubtitleEl.textContent = "لا توجد سجلات لهذه المرحلة حالياً.";
-            return;
-        }
+    // الهيدر
+    tableHeaderRowEl.innerHTML = "";
+    columnIndexes.forEach((colIndex, visibleIndex) => {
+        const th = document.createElement("th");
+        const headerText = normalizeCell(headerRow[colIndex]) || `عمود ${visibleIndex + 1}`;
+        th.textContent = headerText;
+        tableHeaderRowEl.appendChild(th);
+    });
 
-        const normalizedFilter = (filterTerm || "").trim().toLowerCase();
+    // الجسم
+    tableBodyEl.innerHTML = "";
 
-        const filteredRows = normalizedFilter
-            ? dataRows.filter(row =>
-                row.some(cell =>
-                    normalizeCell(cell).toLowerCase().includes(normalizedFilter)
-                )
+    if (dataRows.length === 0) {
+        tableBodyEl.innerHTML =
+            `<tr><td colspan="${columnIndexes.length}" class="muted-text">لا توجد سجلات بعد.</td></tr>`;
+        tableSubtitleEl.textContent = "لا توجد سجلات لهذه المرحلة حالياً.";
+        return;
+    }
+
+    const normalizedFilter = (filterTerm || "").trim().toLowerCase();
+
+    const filteredRows = normalizedFilter
+        ? dataRows.filter(row =>
+            row.some(cell =>
+                normalizeCell(cell).toLowerCase().includes(normalizedFilter)
             )
-            : dataRows;
+        )
+        : dataRows;
 
-        if (filteredRows.length === 0) {
-            tableBodyEl.innerHTML =
-                `<tr><td colspan="${columnIndexes.length}" class="muted-text">لا توجد سجلات مطابقة لبحثك.</td></tr>`;
-        } else {
-            filteredRows.forEach(row => {
-                const rowEl = document.createElement("tr");
+    if (filteredRows.length === 0) {
+        tableBodyEl.innerHTML =
+            `<tr><td colspan="${columnIndexes.length}" class="muted-text">لا توجد سجلات مطابقة لبحثك.</td></tr>`;
+    } else {
+        filteredRows.forEach(row => {
+            const tr = document.createElement("tr");
 
-                columnIndexes.forEach(colIndex => {
-                    const td = document.createElement("td");
-                    td.textContent = normalizeCell(row[colIndex]);
-                    rowEl.appendChild(td);
-                });
-
-                tableBodyEl.appendChild(rowEl);
+            columnIndexes.forEach(colIndex => {
+                const td = document.createElement("td");
+                td.textContent = normalizeCell(row[colIndex]);
+                tr.appendChild(td);
             });
-        }
 
-        if (normalizedFilter) {
-            tableSubtitleEl.textContent =
-                `إجمالي السجلات: ${filteredRows.length} من ${dataRows.length} (بعد التصفية)`;
-        } else {
-            tableSubtitleEl.textContent =
-                `إجمالي السجلات: ${dataRows.length}`;
-        }
-    }
-
-    async function loadLevel(levelKey) {
-        const config = SHEETS_CONFIG[levelKey];
-        if (!config || !config.sheetName || !SPREADSHEET_ID) {
-            setErrorState("تأكد من ضبط SPREADSHEET_ID واسم الشيت لكل مرحلة في الكود.");
-            return;
-        }
-
-        currentLevelKey = levelKey;
-        currentAllRows = null;
-        searchInputEl.value = "";
-
-        tableTitleEl.textContent = `بيانات ${config.title}`;
-        tableSubtitleEl.textContent = "جاري تحميل البيانات من الشيت...";
-
-        levelButtons.forEach(btn => {
-            if (btn.dataset.level === levelKey) {
-                btn.classList.add("active");
-            } else {
-                btn.classList.remove("active");
-            }
+            tableBodyEl.appendChild(tr);
         });
-
-        setLoadingState(true, "جاري تحميل بيانات " + config.title + "...");
-
-        try {
-            const url = buildCsvUrl(config.sheetName);
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                throw new Error(
-                    "فشل الاتصال بـ Google Sheets، تأكد أن الشيت منشور للعامة (Share / Publish to web)."
-                );
-            }
-
-            const csvText = await response.text();
-            const rows = parseCsv(csvText);
-            currentAllRows = rows;
-
-            renderTable(currentAllRows);
-            setLoadingState(false, "تم التحديث بنجاح");
-
-        } catch (err) {
-            console.error(err);
-            setErrorState("تعذر تحميل البيانات: " + err.message);
-        }
     }
 
-    /******************************
-     *       ربط الأحداث
-     ******************************/
+    if (normalizedFilter) {
+        tableSubtitleEl.textContent =
+            `إجمالي السجلات: ${filteredRows.length} من ${dataRows.length} (بعد التصفية)`;
+    } else {
+        tableSubtitleEl.textContent =
+            `إجمالي السجلات: ${dataRows.length}`;
+    }
+}
 
-    startBtn.addEventListener("click", () => {
-        showMain();
-    });
+/* -------- تحميل مرحلة -------- */
 
-    backToSplashBtn.addEventListener("click", () => {
-        showSplash();
-    });
+async function loadLevel(levelKey) {
+    const config = SHEETS_CONFIG[levelKey];
+    if (!config || !config.sheetName || !SPREADSHEET_ID) {
+        setErrorState("تأكد من ضبط SPREADSHEET_ID واسم الشيت لكل مرحلة في الكود.");
+        return;
+    }
+
+    currentLevelKey = levelKey;
+    currentAllRows = null;
+    searchInputEl.value = "";
+
+    tableTitleEl.textContent = `بيانات ${config.title}`;
+    tableSubtitleEl.textContent = "جاري تحميل البيانات من الشيت...";
 
     levelButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const levelKey = btn.dataset.level;
-            loadLevel(levelKey);
-        });
+        if (btn.dataset.level === levelKey) btn.classList.add("active");
+        else btn.classList.remove("active");
     });
 
-    reloadBtn.addEventListener("click", () => {
-        if (currentLevelKey) {
-            loadLevel(currentLevelKey);
-        } else {
-            tableSubtitleEl.textContent = "اختر مرحلة أولاً ثم اضغط تحديث.";
+    setLoadingState(true, "جاري تحميل بيانات " + config.title + "...");
+
+    try {
+        const url = buildCsvUrl(config.sheetName);
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("فشل الاتصال بـ Google Sheets، تأكد أن الشيت منشور للعامة.");
         }
-    });
 
-    searchInputEl.addEventListener("input", () => {
-        if (!currentAllRows) return;
-        const term = searchInputEl.value;
-        renderTable(currentAllRows, term);
+        const csvText = await response.text();
+        const rows = parseCsv(csvText);
+        currentAllRows = rows;
+
+        renderTable(currentAllRows);
+        setLoadingState(false, "تم التحديث بنجاح");
+    } catch (err) {
+        console.error(err);
+        setErrorState("تعذر تحميل البيانات: " + err.message);
+    }
+}
+
+/* -------- ربط الأحداث -------- */
+
+startBtn.addEventListener("click", showMain);
+backToSplashBtn.addEventListener("click", showSplash);
+
+levelButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        loadLevel(btn.dataset.level);
     });
+});
+
+reloadBtn.addEventListener("click", () => {
+    if (currentLevelKey) loadLevel(currentLevelKey);
+    else tableSubtitleEl.textContent = "اختر مرحلة أولاً ثم اضغط تحديث.";
+});
+
+searchInputEl.addEventListener("input", () => {
+    if (!currentAllRows) return;
+    renderTable(currentAllRows, searchInputEl.value);
+});
 </script>
+
 </body>
 </html>
-
-
