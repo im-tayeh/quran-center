@@ -832,7 +832,8 @@
     }
 
     function buildCsvUrl(sheetName) {
-        return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+        const cacheBuster = Date.now(); // رقم يتغير كل مرة
+        return `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&cb=${cacheBuster}`;
     }
 
     function parseCsv(csvText) {
@@ -1042,3 +1043,4 @@
 </script>
 </body>
 </html>
+
